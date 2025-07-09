@@ -1,0 +1,243 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Comic Neue', cursive;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+header {
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 3rem;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    margin-bottom: 20px;
+}
+
+.game-info {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    font-size: 1.5rem;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.game-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.center-card {
+    width: 200px;
+    height: 200px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    border: 4px solid #ff6b6b;
+}
+
+.center-card:hover {
+    transform: scale(1.05);
+}
+
+.player-cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 800px;
+}
+
+.player-card {
+    width: 120px;
+    height: 120px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 3px solid transparent;
+}
+
+.player-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.player-card.selected {
+    border-color: #4ecdc4;
+    transform: scale(1.1);
+}
+
+.player-card.correct {
+    border-color: #51cf66;
+    background: #ebfbee;
+    animation: correctPulse 0.5s ease;
+}
+
+.player-card.wrong {
+    border-color: #ff6b6b;
+    background: #fff5f5;
+    animation: wrongShake 0.5s ease;
+}
+
+@keyframes correctPulse {
+    0%, 100% { transform: scale(1.1); }
+    50% { transform: scale(1.2); }
+}
+
+@keyframes wrongShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.controls {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.btn {
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    font-family: 'Comic Neue', cursive;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+}
+
+.btn-secondary {
+    background: linear-gradient(45deg, #4ecdc4, #6ee7df);
+    color: white;
+    box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(78, 205, 196, 0.6);
+}
+
+.game-over {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    text-align: center;
+    z-index: 1000;
+}
+
+.game-over h2 {
+    color: #ff6b6b;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+}
+
+.game-over p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        gap: 10px;
+        font-size: 1.2rem;
+    }
+    
+    .center-card {
+        width: 150px;
+        height: 150px;
+        font-size: 3rem;
+    }
+    
+    .player-card {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+    }
+    
+    .player-cards {
+        gap: 15px;
+    }
+    
+    .controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .center-card {
+        width: 120px;
+        height: 120px;
+        font-size: 2.5rem;
+    }
+    
+    .player-card {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+} 
