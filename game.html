@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spot It! - Play</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Modak&family=Moulpali&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="game-page">
+    <div class="container">
+        <header>
+            <h1>SPOT IT!</h1>
+        </header>
+        <div class="center-cards">
+            <div id="card1" class="big-card"></div>
+            <div id="card2" class="big-card"></div>
+        </div>
+        
+        <!-- Gear icon for controls -->
+        <div class="gear-icon" id="gearIcon">
+            <i class="fas fa-cog"></i>
+        </div>
+
+        <!-- Individual control buttons (hidden by default) -->
+        <div class="control-btn" id="resetBtn" style="display: none;">
+            <button class="menu-btn">RESET</button>
+        </div>
+        <div class="control-btn" id="customizeBtn" style="display: none;">
+            <button class="menu-btn">CUSTOMIZE</button>
+        </div>
+        <div class="control-btn" id="rulesBtn" style="display: none;">
+            <button class="menu-btn">RULES</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 

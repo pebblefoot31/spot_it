@@ -5,40 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spot It! - Kids Game</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Modak&family=Moulpali&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
+        <div class="decorative-circles">
+            <div class="circle circle-1"></div>
+            <div class="circle circle-2"></div>
+        </div>
         <header>
-            <h1>🎯 Spot It!</h1>
-            <div class="game-info">
-                <div class="score">Score: <span id="score">0</span></div>
-                <div class="timer">Time: <span id="timer">60</span>s</div>
-            </div>
+            <h1>SPOT IT!</h1>
         </header>
-
-        <div class="game-area">
-            <div class="center-card" id="centerCard">
-                <!-- Center card will be generated here -->
-            </div>
-            
-            <div class="player-cards" id="playerCards">
-                <!-- Player cards will be generated here -->
-            </div>
-        </div>
-
         <div class="controls">
-            <button id="startBtn" class="btn btn-primary">Start Game</button>
-            <button id="resetBtn" class="btn btn-secondary">Reset</button>
-        </div>
-
-        <div class="game-over" id="gameOver" style="display: none;">
-            <h2>Game Over!</h2>
-            <p>Final Score: <span id="finalScore">0</span></p>
-            <button id="playAgainBtn" class="btn btn-primary">Play Again</button>
+            <a href="game.html" id="startBtn" class="btn btn-play">PLAY</a>
+            <button id="rulesBtn" class="btn btn-rules">RULES</button>
         </div>
     </div>
-
-    <script src="script.js"></script>
+    <script>
+    document.getElementById('rulesBtn').onclick = function() {
+        alert(`🎯 SPOT IT! GAME RULES 🎯\n\n• Click matching symbols between the center and player cards\n• Earn 5 × (time remaining) points for each match\n• Wrong clicks cost 150 points\n• You have 60 seconds to find as many matches as possible!\n• The faster you find matches, the more points you earn!\n\nGood luck! 🍀`);
+    };
+    </script>
 </body>
 </html> 
