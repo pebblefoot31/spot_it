@@ -52,9 +52,6 @@ class SpotItGame {
 
     shuffleCards() {
 
-            //iterate through cards and randomly pick a card to push onto the shuffled array
-            //remove the card from the original nonshuffled array
-            //return the shuffled array
             shuffledCards = [];
 
             for (let i = 0; i < this.cards.size(); i++) {
@@ -67,7 +64,6 @@ class SpotItGame {
     }
 
     startGame() {
-        
         this.isGameActive = true;
         this.dealNewRound();
         this.startTimer();
@@ -177,9 +173,67 @@ class SpotItGame {
         this.setupEventListeners();
     }
 
-    updateDisplay() {}
+    updateDisplay() {
+
+        //regularly update the time shown based on internal timer if the game is active
+        if (this.isGameActive) {
+            document.getElementById('timer').textContent = this.timeLeft;
+        }
+
+        //if it is a match then we refresh the cards and also check if something in the symbol clicks has changed
+        if (this.checkForMatch()) {
+
+            document.getElementById('card1').innerHTML = '';
+            document.getElementById('card2').innerHTML = '';
+
+            for (let i = 0; i < this.centerCard1.length(); i++)  {
+                const symbolDiv1 = document.createElement('div');
+                symbolDiv1.textContent = this.centerCard1[i];
+                document.getElementById('card1').appendChild(symbolDiv1);
+
+                const symbolDiv2 = document.createElement('div');
+                symbolDiv2.textContent = this.centerCard2[i];
+                document.getElementById('card2').appendChild(symbolDiv2);
+
+                if (i === this.clickedCard1Symbol) {
+                    symbolDiv1.classList.add('glow');
+                } 
+
+                if (i === this.clickedCard2Symbol) {
+                    symbolDiv2.classList.add('glow');
+                }
+            }
+
+        }
+
+    }
     
-    setupEventListeners() {}
+
+    setupEventListeners() {
+       document.getElementById('resetBtn').addEventListener('click', () => {
+            this.resetGame();
+       }); 
+
+       document.getElementById('settingsBtn').addEventListener('click', () => {
+            showModal('<h2>Settings</h2><p>Settings go here!</p>');
+       }); 
+
+       document.getElementById('closeModalBtn').addEventListener('click', hideModal);
+       document.getElementById('overlay').addEventListener('click', hideModal);
+
+       document.getElementById('rulesBtn').addEventListener('click', () => {
+
+       }); 
+
+    //    document.getElementById('card1').addEventListener('click', () => {
+    //         this.check
+    //    }); 
+
+    //    document.getElementById('card2').addEventListener('click', () => {
+    //         this.resetGame();
+    //    }); 
+
+    }
 
     toggleControlButtons() {}
 
@@ -188,6 +242,17 @@ class SpotItGame {
     showCustomize() {}
 
     showRules() {}
+}
+
+function showModal(contentHtml) {
+    document.getElementById('modal-content').innerHTML = contentHtml;
+    document.getElementById('modal').classList.remove('hidden');
+    document.getElementById('overlay').classList.remove('hidden');
+}
+
+function hideModal() {
+    document.getElementById('modal').classList.add('hidden');
+    document.getElementById('overlay').classList.add('hidden');
 }
 
 // Initialize the game when the page loads
