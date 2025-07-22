@@ -128,30 +128,19 @@ h1 {
     transform: scale(1.05);
 }
 
-.center-card .symbol {
-    font-size: 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+.symbol {
+    display: inline-block;
+    font-size: 2rem;
+    margin: 10px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    border-radius: 8px;
+    transition: transform 0.2s, 
 }
 
-.center-card .symbol:hover {
-    background: rgba(255, 107, 107, 0.1);
-    transform: scale(1.1);
+.symbol:hover {
+    transform: scale(1.2);
 }
 
-.center-card .symbol.clicked {
-    background: rgba(255, 107, 107, 0.3);
-    border: 2px solid #ff6b6b;
-    transform: scale(1.05);
-}
-
-.player-cards {
+.center-cards {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
@@ -159,7 +148,7 @@ h1 {
     max-width: 800px;
 }
 
-.player-card {
+.center-card {
     width: 160px;
     height: 160px;
     background: white;
@@ -177,29 +166,29 @@ h1 {
     justify-items: center;
 }
 
-.player-card:hover {
+.big-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-.player-card.selected {
+.big-card.selected {
     border-color: #4ecdc4;
     transform: scale(1.1);
 }
 
-.player-card.correct {
+.big-card.correct {
     border-color: #51cf66;
     background: #ebfbee;
     animation: correctPulse 0.5s ease;
 }
 
-.player-card.wrong {
+.big-card.wrong {
     border-color: #ff6b6b;
     background: #fff5f5;
     animation: wrongShake 0.5s ease;
 }
 
-.player-card .symbol {
+.big-card .symbol {
     font-size: 1.8rem;
     display: flex;
     align-items: center;
@@ -211,14 +200,14 @@ h1 {
     border-radius: 6px;
 }
 
-.player-card .symbol:hover {
-    background: rgba(78, 205, 196, 0.1);
+.big-card .symbol:hover {
+    /* background: rgba(78, 205, 196, 0.1); */
     transform: scale(1.1);
 }
 
-.player-card .symbol.clicked {
-    background: rgba(78, 205, 196, 0.3);
-    border: 2px solid #4ecdc4;
+.big-card .symbol.clicked {
+    /* background: rgba(78, 205, 196, 0.3); */
+    /* border: 2px solid #4ecdc4; */
     transform: scale(1.05);
 }
 
@@ -344,30 +333,6 @@ h1 {
         font-size: 1.2rem;
     }
     
-    .center-card {
-        width: 180px;
-        height: 180px;
-        padding: 10px;
-    }
-    
-    .center-card .symbol {
-        font-size: 1.8rem;
-    }
-    
-    .player-card {
-        width: 120px;
-        height: 120px;
-        padding: 8px;
-    }
-    
-    .player-card .symbol {
-        font-size: 1.3rem;
-    }
-    
-    .player-cards {
-        gap: 15px;
-    }
-    
     .controls {
         flex-direction: column;
         align-items: center;
@@ -385,26 +350,6 @@ h1 {
     
     h1 {
         font-size: 2rem;
-    }
-    
-    .center-card {
-        width: 140px;
-        height: 140px;
-        padding: 8px;
-    }
-    
-    .center-card .symbol {
-        font-size: 1.4rem;
-    }
-    
-    .player-card {
-        width: 90px;
-        height: 90px;
-        padding: 5px;
-    }
-    
-    .player-card .symbol {
-        font-size: 1rem;
     }
 } 
 
@@ -478,7 +423,7 @@ h1 {
 }
 
 .big-card .symbol {
-    font-size: 2.5rem;
+    font-size: 1.0rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -490,17 +435,16 @@ h1 {
 }
 
 .big-card .symbol:hover {
-    background: rgba(255, 107, 107, 0.1);
-    transform: scale(1.1);
+    transform: scale(1.8);
 }
 
 .big-card .symbol.clicked {
     background: rgba(255, 107, 107, 0.3);
     border: 2px solid #ff6b6b;
-    transform: scale(1.05);
+    transform: scale(1.8);
 }
 
-/* Gear icon */
+/* Settings button styles (formerly gear-icon) */
 .settingsBtn {
     position: fixed;
     bottom: 30px;
@@ -680,25 +624,66 @@ h1 {
     transform: none;
 } 
 
+/* Timer display */
+#timer {
+    font-family: 'Moulpali', cursive;
+    font-size: 2.2rem;
+    color: #FFD700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    font-weight: bold;
+    margin: 0 20px;
+}
+
+/* Main game controls */
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin: 24px 0;
+}
+
+.main-btn {
+    font-family: 'Moulpali', cursive;
+    font-size: 1.2rem;
+    padding: 12px 28px;
+    border-radius: 10px;
+    border: none;
+    background: #f5f5f5;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.main-btn:hover {
+    background: #e0e0e0;
+    box-shadow: 2px 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Modal and overlay styles */
 #overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.6);
-  z-index: 1000;
-  display: none; /* or use a .hidden class */
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+    display: none;
 }
 
 #modal {
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 2rem;
-  border-radius: 16px;
-  z-index: 1001;
-  display: none; /* or use a .hidden class */
-} 
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    z-index: 1001;
+    min-width: 300px;
+    min-height: 100px;
+    display: none;
+}
 
-.hidden {
-    display: none !important;
+#modal:not(.hidden), #overlay:not(.hidden) {
+    display: block;
 } 
