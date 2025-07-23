@@ -49,7 +49,6 @@ class SpotItGame {
         this.cards = this.generateSpotItCards();
         this.cards = this.shuffleCards(this.cards);
         this.dealNewRound();
-        document.getElementById('startBtn').style.display = ''; 
     }
 
     shuffleCards() {
@@ -67,8 +66,8 @@ class SpotItGame {
     }
 
     startGame() {
+        document.getElementById('startBtn').classList.add('hidden');
         this.isGameActive = true;
-        document.getElementById('startBtn').style.display = 'none'; 
         this.dealNewRound();
         this.updateDisplay();
         this.startTimer();
@@ -178,10 +177,10 @@ class SpotItGame {
     }
 
     resetGame() { 
+        document.getElementById('startBtn').classList.remove('hidden');
         this.isGameActive = false;
         this.score = 0;
         this.initializeGame();
-        this.setupEventListeners();
     }
 
     updateDisplay() {
@@ -220,62 +219,39 @@ class SpotItGame {
                 document.getElementById('card2').appendChild(symbolDiv2);
             }
         }
-
-
-        //if it is a match then we refresh the cards and also check if something in the symbol clicks has changed
-        //  if (this.checkForMatch()) {
-
-        //      document.getElementById('card1').innerHTML = '';
-        //      document.getElementById('card2').innerHTML = '';
-
-        //      for (let i = 0; i < this.centerCard1.length; i++)  {
-        //          const symbolDiv1 = document.createElement('div');
-        //          symbolDiv1.textContent = this.centerCard1[i];
-        //          document.getElementById('card1').appendChild(symbolDiv1);
-
-        //          const symbolDiv2 = document.createElement('div');
-        //          symbolDiv2.textContent = this.centerCard2[i];
-        //          document.getElementById('card2').appendChild(symbolDiv2);
-
-        //          if (i === this.clickedCard1Symbol) {
-        //              symbolDiv1.classList.add('glow');
-        //          } 
-
-        //          if (i === this.clickedCard2Symbol) {
-        //              symbolDiv2.classList.add('glow');
-        //          }
-        //      }
-
-        //  }
-
     }
     
 
     setupEventListeners() {
+
        document.getElementById('startBtn').addEventListener('click', () => this.startGame());
        document.getElementById('reshuffleBtn').addEventListener('click', () => this.shuffleCards());
-       document.getElementById('resetBtn').addEventListener('click', () => this.resetGame());
-       document.getElementById('rulesBtn').addEventListener('click', () => this.showRules());
+
        document.getElementById('settingsBtn').addEventListener('click', () => {
             // Show settings modal or menu
             this.showSettings();
        });
+
+       document.getElementById('resetBtn').addEventListener('click', () => this.resetGame());
+       document.getElementById('rulesBtn').addEventListener('click', () => this.showRules());
+       document.getElementById('customBtn').addEventListener('click', () => this.showCustomize());
 
        document.getElementById('closeModalBtn').addEventListener('click', hideModal);
        document.getElementById('overlay').addEventListener('click', hideModal);
 
     }
 
-    // hideAllButtons() {}
-
-    // showCustomize() {}
+    showCustomize() {}
 
     showSettings() {
 
-        const reset = document.getElementById('resetBtn');
-        const rules = document.getElementById('rulesBtn');
-        reset.style.display = reset.style.display === 'none' ? '' : 'none';
-        rules.style.display = rules.style.display === 'none' ? '' : 'none';
+        document.getElementById('control-panel').classList.toggle('hidden');
+        // const reset = document.getElementById('resetBtn');
+        // const rules = document.getElementById('rulesBtn');
+        // const custom = document.getElementById('customBtn');
+        // reset.classList.toggle('hidden');
+        // rules.classList.toggle('hidden');
+        // custom.classList.toggle('hidden');
     }
 
     showRules() {
