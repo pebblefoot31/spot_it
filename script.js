@@ -2,8 +2,10 @@
 class SpotItGame {
     constructor() {
         this.cards = [];
+        this.playerCards = [];
         this.centerCard1 = null;
         this.centerCard2 = null;
+        this.symbolsPerCard = 0;
         this.score = 0;
         this.timeLeft = 60;
         this.gameTimer = null;
@@ -18,8 +20,9 @@ class SpotItGame {
         this.setupEventListeners();
     }
 
-    generateSpotItCards(n = 7) {
+    generateSpotItCards(n = 3) {
         const cards = [];
+        this.symbolsPerCard = n + 1; // 8 symbols per card
 
         // First set of n + 1 cards
         for (let i = 0; i <= n; i++) {
@@ -33,7 +36,7 @@ class SpotItGame {
         // Remaining n * n cards
         for (let i = 1; i <= n; i++) {
             for (let j = 1; j <= n; j++) {
-                const card = [i]        ;
+                const card = [i];
                 for (let k = 1; k <= n; k++) {
                     const val = n + 1 + n * (k - 1) + ((i * (k - 1) + j - 1) % n);
                     card.push(val);
@@ -46,23 +49,22 @@ class SpotItGame {
     }
 
     initializeGame() {
-        this.cards = this.generateSpotItCards();
-        this.cards = this.shuffleCards(this.cards);
+        this.cards = this.shuffleCards(this.generateSpotItCards());
         this.dealNewRound();
     }
 
-    shuffleCards() {
+    shuffleCards(cards) {
 
-            let shuffledCards = [];
-            let index = 0;
 
-            for (let i = 0; i < this.cards.length; i++) {
-                index = Math.floor(Math.random()*this.cards.length);
-                shuffledCards.push(this.cards[index]);
-                this.cards.splice(index,1);
-            }
 
-            return shuffledCards;
+        let shuffled = [...cards];
+
+        for (let i = shuffled.length-1; i > 0; i--) {
+            let j = Math.floor(Math.random()*(i+1));
+            [shuffled[i],shuffled[j]] = [shuffled[j],shuffled[i]];
+        }
+
+        return shuffled;
     }
 
     startGame() {
@@ -75,14 +77,16 @@ class SpotItGame {
 
     dealNewRound() {
 
-        if (this.cards.length > 1) {
-            this.centerCard1 = this.cards[this.cards.length-1];
-            this.cards.pop();
-            this.centerCard2 = this.cards[this.cards.length-1];
-            this.cards.pop();
+        if (this.cards.length >= 2) {
+            this.centerCard1 = this.cards.pop();
+            this.centerCard2 = this.cards.pop();
+        } else if (this.cards.length === 1) {
+            this.centerCard1 = this.cards.pop();
+            this.centerCard2 = this.playerCards[this.playerCards.length-1]; //take the top card from the player cards when deck only has one card left
+            console.log("Just reached the final card in the deck.");
         } else {
-            this.centerCard1 = this.cards[this.cards.length-1];
-            this.cards.pop();
+            console.log("Ending game.");
+            this.endGame();
         }
 
         this.updateDisplay();
@@ -122,6 +126,12 @@ class SpotItGame {
 
         if (this.clickedCard1Symbol !== null && this.clickedCard2Symbol !== null) {
             if (this.checkForMatch()) {
+
+                if (this.cards.length === 0) {
+                    this.endGame();
+                    return;
+                }
+
                 this.dealNewRound();
             }
         }
@@ -139,7 +149,11 @@ class SpotItGame {
 
             if (symbol1 === symbol2) {
 
-                this.score += 1;
+                this.score += 5*this.timeLeft;
+                this.playerCards.push(this.centerCard1);
+                this.playerCards.push(this.centerCard2);
+
+
                 this.centerCard1 = null;
                 this.centerCard2 = null;
                 this.clickedCard1Symbol = null;
@@ -149,7 +163,7 @@ class SpotItGame {
             } 
         }
 
-        this.score -= 1;
+        this.score -= 150;
         return false;
     }
     
@@ -174,6 +188,7 @@ class SpotItGame {
         this.isGameActive = false;
         this.gameTimer = null;
         this.updateDisplay();
+        showModal('<div><p>The game is over!</p></div>');
     }
 
     resetGame() { 
@@ -200,7 +215,7 @@ class SpotItGame {
 
         // Render card1 symbols
         if (this.centerCard1) {
-            for (let i = 0; i < this.centerCard1.length; i++) {
+            for (let i = 0; i < this.symbolsPerCard; i++) {
                 const symbolDiv1 = document.createElement('div');
                 symbolDiv1.classList.add('symbol');
                 symbolDiv1.textContent = this.symbolList[this.centerCard1[i] % this.symbolList.length];
@@ -211,7 +226,7 @@ class SpotItGame {
 
         // Render card2 symbols
         if (this.centerCard2) {
-            for (let i = 0; i < this.centerCard2.length; i++) {
+            for (let i = 0; i < this.symbolsPerCard; i++) {
                 const symbolDiv2 = document.createElement('div');
                 symbolDiv2.classList.add('symbol');
                 symbolDiv2.textContent = this.symbolList[this.centerCard2[i] % this.symbolList.length];
@@ -225,7 +240,14 @@ class SpotItGame {
     setupEventListeners() {
 
        document.getElementById('startBtn').addEventListener('click', () => this.startGame());
-       document.getElementById('reshuffleBtn').addEventListener('click', () => this.shuffleCards());
+       document.getElementById('reshuffleBtn').addEventListener('click', () => {
+            if (this.centerCard1) this.cards.push(this.centerCard1);
+            if (this.centerCard2) this.cards.push(this.centerCard2);
+
+            this.cards = this.shuffleCards(this.cards);
+            this.dealNewRound();
+            this.updateDisplay();
+       });
 
        document.getElementById('settingsBtn').addEventListener('click', () => {
             // Show settings modal or menu
