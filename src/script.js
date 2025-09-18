@@ -10,7 +10,7 @@ class SpotItGame {
         this.timeLeft = 60;
         this.gameTimer = null;
         this.isGameActive = false;
-        this.symbolList = ['🍎','🚗','🐶','⭐','🎈','🌵','🎲','🦄','🍕','👻','🎵','⚽','🛴','🦊','🌈','🐸','🎁','🪁','🪐','🐱','🍔','🎨','📚','🐢','🚀','🧸','🎤','👽','🥕','🍄','🐧','🍩','🧃','🛸','🎮','🥑','🔮','📸','🧃','🌻','🌙','🧁','🔔','🐠','🦋','📀','📌','🍇','🍪','🍰','🎓','🐙','🎯','🥎','🎬','🍹'];
+        this.symbolList = ['🍎','🚗','🐶','⭐','🎈','🌵','🎲','🦄','🍕','👻','🎵','⚽','🛴','🦊','🌈','🐸','🎁','🪁','🪐','🐱','🍔','🎨','📚','🐢','🚀','🧸','🎤','👽','🥕','🍄','🐧','🍩','🧃','🛸','🎮','🥑','🔮','📸','🌻','🌙','🧁','🔔','🐠','🦋','📀','📌','🍇','🍪','🍰','🎓','🐙','🎯','🥎','🎬','🍹','🦜','🦒','🦁','🐯','🐨','🐼','🦘','🦡','🦔','🐿️','🦦','🦥','🐑','🐐','🐪','🦙','🦌','🐕','🐩','🐈','🐈‍⬛','🐓','🦃','🦚','🦜','🦢','🦩','🦨','🦝','🦡','🦔','🐿️','🦦','🦥','🐑','🐐','🐪','🦙','🦌','🐕','🐩','🐈','🐈‍⬛','🐓','🦃','🦚','🦜','🦢','🦩','🦨','🦝'];
         
         // Track clicked symbols
         this.clickedCard1Symbol = null;
@@ -20,31 +20,32 @@ class SpotItGame {
         this.setupEventListeners();
     }
 
-    generateSpotItCards(n = 3) {
+    generateSpotItCards(n = 7) {
         const cards = [];
         this.symbolsPerCard = n + 1; // 8 symbols per card
-
-        // First set of n + 1 cards
+        
+        // Create a finite projective plane of order n
+        // This ensures each card has unique symbols and any two cards share exactly one symbol
+        
+        // First card: [0, 1, 2, 3, 4, 5, 6, 7]
+        const firstCard = [];
         for (let i = 0; i <= n; i++) {
-            const card = [0];
-            for (let j = 1; j <= n; j++) {
-                card.push(i * n + j);
-            }
-            cards.push(card);
+            firstCard.push(i);
         }
-
-        // Remaining n * n cards
+        cards.push(firstCard);
+        
+        // Generate remaining cards using the projective plane construction
         for (let i = 1; i <= n; i++) {
-            for (let j = 1; j <= n; j++) {
+            for (let j = 0; j < n; j++) {
                 const card = [i];
-                for (let k = 1; k <= n; k++) {
-                    const val = n + 1 + n * (k - 1) + ((i * (k - 1) + j - 1) % n);
-                    card.push(val);
+                for (let k = 0; k < n; k++) {
+                    const symbol = n + 1 + k * n + ((i * k + j) % n);
+                    card.push(symbol);
                 }
                 cards.push(card);
             }
         }
-
+        
         return cards;
     }
 
@@ -207,7 +208,17 @@ class SpotItGame {
             document.getElementById('timer').textContent = '00:00';
         }
 
-        document.getElementById('score').textContent = this.score;
+        const scoreElement = document.getElementById('score');
+        const oldScore = parseInt(scoreElement.textContent) || 0;
+        scoreElement.textContent = this.score;
+        
+        // Add animation if score changed
+        if (oldScore !== this.score) {
+            scoreElement.classList.add('score-change');
+            setTimeout(() => {
+                scoreElement.classList.remove('score-change');
+            }, 600);
+        }
 
         // Clear existing cards
         document.getElementById('card1').innerHTML = '';
@@ -258,7 +269,11 @@ class SpotItGame {
        document.getElementById('rulesBtn').addEventListener('click', () => this.showRules());
        document.getElementById('customBtn').addEventListener('click', () => this.showCustomize());
 
-       document.getElementById('closeModalBtn').addEventListener('click', hideModal);
+       document.getElementById('closeModalBtn').addEventListener('click', () => {
+            console.log("hiding!");
+            hideModal();
+       });
+
        document.getElementById('overlay').addEventListener('click', hideModal);
 
     }
@@ -277,7 +292,7 @@ class SpotItGame {
     }
 
     showRules() {
-        showModal('<div><p>The rules of the game are very simple. Given two cards, find the matching symbol between both cards!</p></div>');
+        showModal('<p style="font-family: \'Inter\', sans-serif;">The rules of the game are very simple. Given two cards, find the matching symbol between both cards!</p>');
     }
 }
 
@@ -290,6 +305,7 @@ function showModal(contentHtml) {
 function hideModal() {
     document.getElementById('modal').classList.add('hidden');
     document.getElementById('overlay').classList.add('hidden');
+    console.log("hiding modal.");
 }
 
 // Initialize the game when the page loads

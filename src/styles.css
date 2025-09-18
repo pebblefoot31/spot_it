@@ -25,6 +25,11 @@ body {
     background: #f5f5f5;
     border: 8px solid white;
     box-shadow: 4px -4px 0px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: #333;
 }
 
 .circle-1 {
@@ -41,6 +46,13 @@ body {
     right: 30px;
 }
 
+.circle-3 {
+    width: 120px;
+    height: 120px;
+    top: 40px;
+    right: 60px;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -53,6 +65,33 @@ body {
     align-items: center;
     position: relative;
 }
+
+.symbol-marquee {
+    width: 100%;
+    overflow: hidden;
+    background: none; /* optional background */
+    padding: 10px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    
+}
+
+.marquee-track {
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 2rem;
+    letter-spacing: 1rem;
+    color: white;
+    animation: scrollSymbols 35s linear infinite;
+}
+
+@keyframes scrollSymbols {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
 
 /* Only for index.html: huge title */
 body:not(.game-page) h1 {
@@ -361,36 +400,24 @@ h1 {
     position: relative;
 }
 
-.game-page header {
+.game-page header h1 {
     position: absolute;
-    top: 30px;
-    left: 10px;
+    top: 10px;
+    left: 0px;
     z-index: 10;
+    transform: translateX(-300px);
 }
 
 .game-page h1 {
-    font-family: 'Modak', cursive;
-    font-size: 4rem;
-    color: #fde140;
-    text-shadow: 
-        4px 4px 0 #fff,
-        -4px -4px 0 #fff,
-        4px -4px 0 #fff,
-        -4px 4px 0 #fff,
-        3px 3px 0 #fff,
-        -3px -3px 0 #fff,
-        3px -3px 0 #fff,
-        -3px 3px 0 #fff,
-        2px 2px 0 #fff,
-        -2px -2px 0 #fff,
-        2px -2px 0 #fff,
-        -2px 2px 0 #fff,
-        1px 1px 0 #fff,
-        -1px -1px 0 #fff,
-        1px -1px 0 #fff,
-        -1px 1px 0 #fff;
     margin: 0;
-    letter-spacing: 2px;
+    padding: 0;
+    text-align: left;
+    text-shadow: 5px 5px 0px #FFF;
+    font-family: 'Modak', cursive;
+    font-size: 5rem;
+    color: #ffd900;
+    margin: 0;
+    letter-spacing: 1px;
 }
 
 .center-cards {
@@ -401,8 +428,8 @@ h1 {
 }
 
 .big-card {
-    width: 300px;
-    height: 300px;
+    width: 350px;
+    height: 350px;
     border-radius: 50%;
     background: #f5f5f5;
     border: 8px solid white;
@@ -544,7 +571,8 @@ h1 {
   background: linear-gradient(45deg, #99D98C, #99D98C);
   border: none;
   border-radius: 8px;
-  padding: 10px 12px;
+  padding: 10px 15px;
+  margin-bottom: 2rem;
   width: 300px;
   cursor: pointer;
   letter-spacing: 1px;
@@ -682,7 +710,20 @@ h1 {
     font-weight: bold;
     text-transform: uppercase;
     padding-top: 30px;
-    
+}
+
+#score {
+    transition: all 0.3s ease;
+}
+
+#score.score-change {
+    animation: scoreBlowUp 0.6s ease;
+}
+
+@keyframes scoreBlowUp {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
 }
 
 /* Main game controls */
